@@ -1,0 +1,34 @@
+[project]
+name = "ac8-guidance-replacement"
+version = "0.1.0"
+description = "AC8-Mouse-Aim 制导律替换分析脚本：纯 ZEM 与简化版战争雷霆飞控的 1024 场景对照"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=2.0",
+    "numba>=0.60",
+    "matplotlib>=3.8",
+    "scipy>=1.11",
+]
+
+[project.optional-dependencies]
+# FR 标定（num20_fr_calib.py）不需要 cvxpy/z3/ortools。
+# 这两项只在早期最优控制探索（.ac8-research/opt/）用到，本目录脚本不依赖。
+opt = ["cvxpy>=1.4", "z3-solver>=4.12", "ortools>=9.8"]
+
+[tool.uv]
+# 复现说明：用 uv 建独立 venv，避免污染系统 python。
+#   cd analysis_scripts
+#   uv venv .venv --python 3.12
+#   uv pip install -e .
+#   uv run python num20_fr_calib.py
+#   uv run python num21_main.py full
+#   uv run python num21_report.py
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = ["E501"]
